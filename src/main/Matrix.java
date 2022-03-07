@@ -81,6 +81,59 @@ public class Matrix {
         return temp;
     }
 
+    public static Matrix add(Matrix m1, Matrix m2) {
+        assert m1.rows == m2.rows && m1.columns == m2.columns;
+        Matrix temp = new Matrix(m1.rows, m1.columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                temp.set(r, c, m1.get(r, c) + m2.get(r, c));
+            }
+        }
+        return temp;
+    }
+    public static Matrix subtract(Matrix m1, Matrix m2) {
+        assert m1.rows == m2.rows && m1.columns == m2.columns;
+        Matrix temp = new Matrix(m1.rows, m1.columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                temp.set(r, c, m1.get(r, c) - m2.get(r, c));
+            }
+        }
+        return temp;
+    }
+    public static Matrix multiply(Matrix m1, Matrix m2) {
+        assert m1.rows == m2.rows && m1.columns == m2.columns;
+        Matrix temp = new Matrix(m1.rows, m1.columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                temp.set(r, c, m1.get(r, c) * m2.get(r, c));
+            }
+        }
+        return temp;
+    }
+    public static Matrix divide(Matrix m1, Matrix m2) {
+        assert m1.rows == m2.rows && m1.columns == m2.columns;
+        Matrix temp = new Matrix(m1.rows, m1.columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                temp.set(r, c, m1.get(r, c) / m2.get(r, c));
+            }
+        }
+        return temp;
+    }
+    public static Matrix matrixMultiply(Matrix m1, Matrix m2) {
+        assert m1.columns == m2.rows;
+        Matrix temp = new Matrix(m1.rows, m2. columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                for(int i = 0; i < m1.columns; i++) {
+                    temp.set(r, c, temp.get(r, c) + m1.get(r, i) * m2.get(i, c));
+                }
+            }
+        }
+        return temp;
+    }
+
     public Matrix cleanse(double value) {
         for(int r = 0; r < this.rows; r++) {
             for(int c = 0; c < this.columns; c++) {
