@@ -13,71 +13,88 @@ public class Matrix {
     }
 
     public double get(int row, int column) {
-        return access(row, column, false, 0);
+        return this.access(row, column, false, 0);
     }
-    public double set(int row, int column, double value) {
-        return access(row, column, true, value);
+    public Matrix set(int row, int column, double value) {
+        this.access(row, column, true, value);
+        return this;
     }
     private synchronized double access(int row, int column, boolean edit, double value) {
         if(edit) {
-            double temp = data[row][column];
             data[row][column] = value;
-            return temp;
+            return 0;
         } else {
             return data[row][column];
         }
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
-    public Matrix submatrix(int row, int column) {
-        assert(0 < rows && 0 < columns && row < rows && column < columns);
-        Matrix temp = new Matrix(rows - 1, columns - 1);
-        for(int r = 0; r < row; r++) {
-            for(int c = 0; c < column; c++) {
-                temp.set(r, c, get(r, c));
-            }
-            for(int c = column + 1; c < columns; c++) {
-                temp.set(r, c - 1, get(r, c));
+    public Matrix set(double[][] values) {
+        this.cleanse(0);
+        for(int r = 0; r < values.length && r < this.rows; r++) {
+            for(int c = 0; c < values[r].length && c < this.columns; c++) {
+                this.set(r, c, values[r][c]);
             }
         }
-        for(int r = row + 1; r < rows; r++) {
-            for(int c = 0; c < column; c++) {
-                temp.set(r - 1, c, get(r, c));
-            }
-            for(int c = column + 1; c < columns; c++) {
-                temp.set(r - 1, c - 1, get(r, c));
-            }
-        }
-        return temp;
+        return this;
     }
-
-    public double determinant() {
-        assert(rows == columns);
-        if(rows == 2) {
-            return (get(0, 0) * get(1, 1)) - (get(1, 0) * get(0, 1));
-        }
-        double temp = 0;
-        for(int c = 0; c < columns; c++) {
-            temp += Math.pow(-1, c) * get(0, c) * submatrix(0, c).determinant();
-        }
-        return temp;
-    }
-
-    public Matrix cleanse(double value) {
-        for(int r = 0; r < rows; r++) {
-            for(int c = 0; c < columns; c++) {
-                set(r, c, value);
+    public Matrix set(double[][] values, int rowOffset, int columnOffset) {
+        this.cleanse(0);
+        for(int r = Math.max(-rowOffset, 0); r < this.rows && r + rowOffset < values.length; r++) {
+            for(int c = Math.max(-columnOffset, 0); c < this.columns && c + columnOffset < values[r + rowOffset].length; c++) {
+                this.set(r, c, values[r + rowOffset][c + columnOffset]);
             }
         }
         return this;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
+    public Matrix submatrix(int row, int column) {
+        assert(0 < this.rows && 0 < this.columns && row < this.rows && column < this.columns);
+        Matrix temp = new Matrix(this.rows - 1, this.columns - 1);
+        for(int r = 0; r < row; r++) {
+            for(int c = 0; c < column; c++) {
+                temp.set(r, c, this.get(r, c));
+            }
+            for(int c = column + 1; c < this.columns; c++) {
+                temp.set(r, c - 1, this.get(r, c));
+            }
+        }
+        for(int r = row + 1; r < this.rows; r++) {
+            for(int c = 0; c < column; c++) {
+                temp.set(r - 1, c, this.get(r, c));
+            }
+            for(int c = column + 1; c < this.columns; c++) {
+                temp.set(r - 1, c - 1, this.get(r, c));
+            }
+        }
+        return temp;
+    }
+    public double determinant() {
+        assert(this.rows == this.columns);
+        if(this.rows == 2) {
+            return (this.get(0, 0) * this.get(1, 1)) - (this.get(1, 0) * this.get(0, 1));
+        }
+        double temp = 0;
+        for(int c = 0; c < this.columns; c++) {
+            temp += Math.pow(-1, c) * this.get(0, c) * this.submatrix(0, c).determinant();
+        }
+        return temp;
+    }
+
+    public Matrix cleanse(double value) {
+        for(int r = 0; r < this.rows; r++) {
+            for(int c = 0; c < this.columns; c++) {
+                this.set(r, c, value);
+            }
+        }
+        return this;
+    }
     public String toString() {
         StringBuilder temp = new StringBuilder("[");
-        for(int r = 0; r < rows; r++) {
+        for(int r = 0; r < this.rows; r++) {
             temp.append("(");
-            for(int c = 0; c < columns; c++) {
-                temp.append(get(r, c)).append(" ");
+            for(int c = 0; c < this.columns; c++) {
+                temp.append(this.get(r, c)).append(" ");
             }
             temp.deleteCharAt(temp.length() - 1).append(") ");
         }
