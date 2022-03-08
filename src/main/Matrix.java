@@ -80,6 +80,14 @@ public class Matrix {
         }
         return temp;
     }
+    public Matrix passFunction(DoubleToDouble function) {
+        for(int r = 0; r < this.rows; r++) {
+            for(int c = 0; c < this.columns; c++) {
+                this.set(r, c, function.pass(this.get(r, c)));
+            }
+        }
+        return this;
+    }
 
     public static Matrix add(Matrix m1, Matrix m2) {
         assert m1.rows == m2.rows && m1.columns == m2.columns;
@@ -134,6 +142,15 @@ public class Matrix {
         return temp;
     }
 
+    public Matrix duplicate() {
+        Matrix temp = new Matrix(this.rows, this.columns);
+        for(int r = 0; r < temp.rows; r++) {
+            for(int c = 0; c < temp.columns; c++) {
+                temp.set(r, c, this.get(r, c));
+            }
+        }
+        return temp;
+    }
     public Matrix cleanse(double value) {
         for(int r = 0; r < this.rows; r++) {
             for(int c = 0; c < this.columns; c++) {
