@@ -159,6 +159,15 @@ public class Matrix {
         }
         return this;
     }
+    public Matrix randomize(double min, double max) {
+        assert max > min;
+        for(int r = 0; r < this.rows; r++) {
+            for(int c = 0; c < this.columns; c++) {
+                this.set(r, c, (max - min) * Math.random() + min);
+            }
+        }
+        return this;
+    }
     public String toString() {
         StringBuilder temp = new StringBuilder("[");
         for(int r = 0; r < this.rows; r++) {
