@@ -1,4 +1,6 @@
-package main;
+package math;
+
+import math.DoubleToDouble;
 
 public class Function {
     public static final DoubleToDouble sigmoid, rectifier;

@@ -1,4 +1,4 @@
-package main;
+package math;
 
 public class Vector extends Matrix {
 

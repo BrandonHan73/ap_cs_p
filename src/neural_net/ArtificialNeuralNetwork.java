@@ -1,4 +1,9 @@
-package main;
+package neural_net;
+
+import config.Config;
+import math.Function;
+import math.Matrix;
+import math.Vector;
 
 public class ArtificialNeuralNetwork {
 
@@ -25,12 +30,10 @@ public class ArtificialNeuralNetwork {
         assert inputs.length == this.inputCount;
         Vector temp = new Vector(this.inputCount).set(inputs);
         for(int l = 0; l < this.layers; l++) {
-            temp = Vector.matrixToVector(
-                    Matrix.add(
-                            Matrix.transpose(Matrix.matrixMultiply(weights[l], temp)),
-                            this.biases[l]
-                    )
-            );
+            temp = Vector.matrixToVector(Matrix.add(
+                    Matrix.transpose(Matrix.matrixMultiply(weights[l], temp)),
+                    this.biases[l]
+            ).passFunction(Function.sigmoid));
         }
         return temp.toArray();
     }
