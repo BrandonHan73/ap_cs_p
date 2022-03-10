@@ -48,6 +48,21 @@ public class Vector extends Matrix {
         return temp;
     }
 
+    public static Vector matrixToVector(Matrix m) {
+        assert m.columns == 1;
+        Vector temp = new Vector(m.rows);
+        for(int i = 0; i < temp.size; i++) {
+            temp.set(i, m.get(i, 0));
+        }
+        return temp;
+    }
+    public double[] toArray() {
+        double[] temp = new double[this.size];
+        for(int i = 0; i < this.size; i++) {
+            temp[i] = this.get(i);
+        }
+        return temp;
+    }
     public String toString() {
         StringBuilder temp = new StringBuilder("<");
         for(int i = 0; i < this.size; i++) {

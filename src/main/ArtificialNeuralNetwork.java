@@ -16,19 +16,23 @@ public class ArtificialNeuralNetwork {
         for(int i = 0; i < this.layers; i++) {
             this.weights[i] = new Matrix(this.nodeCounts[i + 1], this.nodeCounts[i]);
             this.weights[i].randomize(Config.ANN_INITIAL_RANDOM_MIN, Config.ANN_INITIAL_RANDOM_MAX);
-            this.biases[i] = new Matrix(this.nodeCounts[i + 1], this.nodeCounts[i]);
+            this.biases[i] = new Matrix(this.nodeCounts[i + 1], 1);
             this.biases[i].randomize(Config.ANN_INITIAL_RANDOM_MIN, Config.ANN_INITIAL_RANDOM_MAX);
         }
     }
 
     public double[] pass(double[] inputs) {
         assert inputs.length == this.inputCount;
-        double[] temp_in = new double[inputs.length];
-        System.arraycopy(inputs, 0, temp_in, 0, inputs.length);
+        Vector temp = new Vector(this.inputCount).set(inputs);
         for(int l = 0; l < this.layers; l++) {
-            double[] temp_out = new double[this.nodeCounts[l]];
+            temp = Vector.matrixToVector(
+                    Matrix.add(
+                            Matrix.transpose(Matrix.matrixMultiply(weights[l], temp)),
+                            this.biases[l]
+                    )
+            );
         }
-        return new double[] {};
+        return temp.toArray();
     }
 
 }

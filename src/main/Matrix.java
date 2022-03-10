@@ -88,6 +88,15 @@ public class Matrix {
         }
         return this;
     }
+    public static Matrix transpose(Matrix m) {
+        Matrix temp = new Matrix(m.columns, m.rows);
+        for(int r = 0; r < m.rows; r++) {
+            for(int c = 0; c < m.columns; c++) {
+                temp.set(c, r, m.get(r, c));
+            }
+        }
+        return temp;
+    }
 
     public static Matrix add(Matrix m1, Matrix m2) {
         assert m1.rows == m2.rows && m1.columns == m2.columns;
