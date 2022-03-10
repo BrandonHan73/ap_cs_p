@@ -1,0 +1,60 @@
+package main;
+
+public class Vector extends Matrix {
+
+    public final int size;
+
+    public Vector(int size) {
+        super(size, 1);
+        this.size = size;
+    }
+
+    public double get(int loc) {
+        return this.get(loc, 0);
+    }
+    public Vector set(int loc, double value) {
+        this.set(loc, 0, value);
+        return this;
+    }
+    public Vector set(double[] values) {
+        this.cleanse(0);
+        for(int i = 0; i < this.size && i < values.length; i++) {
+            this.set(i, values[i]);
+        }
+        return this;
+    }
+    public Vector set(double[] values, int offset) {
+        this.cleanse(0);
+        for(int i = offset; i < values.length && i - offset < this.size; i++) {
+            this.set(i - offset, values[offset]);
+        }
+        return this;
+    }
+
+    public static double dotProduct(Vector v1, Vector v2) {
+        assert v1.size == v2.size;
+        double temp = 0;
+        for(int i = 0; i < v1.size; i++) {
+            temp += v1.get(i) * v2.get(i);
+        }
+        return temp;
+    }
+    public static Vector crossProduct(Vector v1, Vector v2) {
+        assert v1.size == 3 && v2.size == 3;
+        Vector temp = new Vector(3);
+        temp.set(0, v1.get(1) * v2.get(2) - v1.get(2) * v2.get(1));
+        temp.set(1, v1.get(2) * v2.get(0) - v1.get(0) * v2.get(2));
+        temp.set(2, v1.get(0) * v2.get(1) - v1.get(1) * v2.get(0));
+        return temp;
+    }
+
+    public String toString() {
+        StringBuilder temp = new StringBuilder("<");
+        for(int i = 0; i < this.size; i++) {
+            temp.append(this.get(i)).append(", ");
+        }
+        temp.deleteCharAt(temp.length() - 1).deleteCharAt(temp.length() - 1).append(">");
+        return temp.toString();
+    }
+
+}
