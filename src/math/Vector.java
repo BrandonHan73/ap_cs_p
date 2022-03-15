@@ -48,6 +48,22 @@ public class Vector extends Matrix {
         return temp;
     }
 
+    public Vector passFunction(DoubleToDouble function) {
+        super.passFunction(function);
+        return this;
+    }
+    public Vector duplicate() {
+        return Vector.matrixToVector(super.duplicate());
+    }
+    public Vector cleanse(double value) {
+        super.cleanse(value);
+        return this;
+    }
+    public Vector randomize(double min, double max) {
+        super.randomize(min, max);
+        return this;
+    }
+
     public static Vector matrixToVector(Matrix m) {
         assert m.columns == 1;
         Vector temp = new Vector(m.rows);
