@@ -6,6 +6,22 @@ import math.Matrix;
 import math.Vector;
 
 public class ArtificialNeuralNetwork {
+    private double fitness;
+    public double getFitness() {
+        return this.accessFitness(false, 0);
+    }
+    public ArtificialNeuralNetwork setFitness(double value) {
+        this.accessFitness(true, value);
+        return this;
+    }
+    private synchronized double accessFitness(boolean edit, double value) {
+        if(edit) {
+            this.fitness = Math.max(0, value);
+            return 0;
+        } else {
+            return this.fitness;
+        }
+    }
 
     public final int inputCount, layers;
     private int[] nodeCounts;
