@@ -151,6 +151,15 @@ public class Matrix {
         return temp;
     }
 
+    public Matrix multiply(double factor) {
+        for(int r = 0; r < this.rows; r++) {
+            for(int c = 0; c < this.columns; c++) {
+                this.data[r][c] *= factor;
+            }
+        }
+        return this;
+    }
+
     public Matrix duplicate() {
         Matrix temp = new Matrix(this.rows, this.columns);
         for(int r = 0; r < temp.rows; r++) {

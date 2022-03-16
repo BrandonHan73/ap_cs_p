@@ -54,4 +54,23 @@ public class ArtificialNeuralNetwork {
         return temp.toArray();
     }
 
+    public ArtificialNeuralNetwork mutate(double factor) {
+        for(Matrix m : this.weights) {
+            m.multiply(1 - Function.randomize.pass(factor));
+        }
+        for(Matrix m : this.biases) {
+            m.multiply(1 - Function.randomize.pass(factor));
+        }
+        return this;
+    }
+    public ArtificialNeuralNetwork mutate() {
+        for(Matrix m : this.weights) {
+            m.multiply(1 - Function.randomize.pass(Config.ANN_STANDARD_MUTATION_RATE));
+        }
+        for(Matrix m : this.biases) {
+            m.multiply(1 - Function.randomize.pass(Config.ANN_STANDARD_MUTATION_RATE));
+        }
+        return this;
+    }
+
 }

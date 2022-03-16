@@ -35,6 +35,29 @@ public class TrainNEAT {
         return this;
     }
 
+    public TrainNEAT repopulate() {
+        this.sortNetworks();
+        ArtificialNeuralNetwork[] temp = new ArtificialNeuralNetwork[this.populationSize];
+        System.arraycopy(this.networks, 0, temp, 0, this.populationSize / 3);
+        return this;
+    }
+
+    public ArtificialNeuralNetwork getWeightedRandom() {
+        this.sortNetworks();
+        double temp = 0;
+        for(ArtificialNeuralNetwork ann : this.networks) {
+            temp += ann.getFitness();
+        }
+        temp *= Math.random();
+        for(ArtificialNeuralNetwork ann : this.networks) {
+            temp -= ann.getFitness();
+            if(temp <= 0) {
+                return ann;
+            }
+        }
+        return null;
+    }
+
     public ArtificialNeuralNetwork[] getNetworks() {
         ArtificialNeuralNetwork[] temp = new ArtificialNeuralNetwork[this.networks.length];
         System.arraycopy(this.networks, 0, temp, 0, this.networks.length);
