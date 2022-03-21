@@ -47,7 +47,7 @@ public class ArtificialNeuralNetwork {
         Vector temp = new Vector(this.inputCount).set(inputs);
         for(int l = 0; l < this.layers; l++) {
             temp = Vector.matrixToVector(Matrix.add(
-                    Matrix.transpose(Matrix.matrixMultiply(weights[l], temp)),
+                    Matrix.matrixMultiply(weights[l], temp),
                     this.biases[l]
             ).passFunction(Function.sigmoid));
         }
@@ -71,6 +71,15 @@ public class ArtificialNeuralNetwork {
             m.multiply(1 - Function.randomize.pass(Config.ANN_STANDARD_MUTATION_RATE));
         }
         return this;
+    }
+
+    public ArtificialNeuralNetwork duplicate() {
+        ArtificialNeuralNetwork temp = new ArtificialNeuralNetwork(this.nodeCounts);
+        for(int i = 0; i < this.nodeCounts.length - 1; i++) {
+            temp.weights[i] = this.weights[i].duplicate();
+            temp.biases[i] = this.biases[i].duplicate();
+        }
+        return temp;
     }
 
 }

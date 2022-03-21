@@ -39,6 +39,14 @@ public class TrainNEAT {
         this.sortNetworks();
         ArtificialNeuralNetwork[] temp = new ArtificialNeuralNetwork[this.populationSize];
         System.arraycopy(this.networks, 0, temp, 0, this.populationSize / 3);
+        for(int i = this.populationSize / 3; i < 2 * this.populationSize / 3; i++) {
+            temp[i] = this.getWeightedRandom().duplicate().mutate();
+        }
+        for(int i = 2 * this.populationSize / 3; i < this.populationSize; i++) {
+            temp[i] = new ArtificialNeuralNetwork(this.nodeCounts);
+        }
+        this.networks = temp;
+        this.sortNetworks();
         return this;
     }
 
