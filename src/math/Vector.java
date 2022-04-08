@@ -31,15 +31,51 @@ public class Vector extends Matrix {
         return this;
     }
 
-    public static double dotProduct(Vector v1, Vector v2) {
+    public static Vector add(Vector v1, Vector v2) {
         assert v1.size == v2.size;
-        double temp = 0;
+        Vector temp = new Vector(v1.size);
         for(int i = 0; i < v1.size; i++) {
-            temp += v1.get(i) * v2.get(i);
+            temp.set(i, v1.get(i) + v2.get(i));
         }
         return temp;
     }
-    public static Vector crossProduct(Vector v1, Vector v2) {
+    public static Vector sub(Vector v1, Vector v2) {
+        assert v1.size == v2.size;
+        Vector temp = new Vector(v1.size);
+        for(int i = 0; i < v1.size; i++) {
+            temp.set(i, v1.get(i) - v2.get(i));
+        }
+        return temp;
+    }
+    public static Vector mult(Vector v, double d) {
+        Vector temp = new Vector(v.size);
+        for(int i = 0; i < v.size; i++) {
+            temp.set(i, v.get(i) * d);
+        }
+        return temp;
+    }
+    public static Vector div(Vector v, double d) {
+        Vector temp = new Vector(v.size);
+        for(int i = 0; i < v.size; i++) {
+            temp.set(i, v.get(i) / d);
+        }
+        return temp;
+    }
+    public static double dot(Vector v1, Vector v2) {
+        assert v1.size == v2.size;
+        double sum = 0;
+        for(int i = 0; i < v1.size; i++) {
+            sum += v1.get(i) * v2.get(i);
+        }
+        return sum;
+    }
+    public static double length(Vector v) {
+        return Math.sqrt(dot(v, v));
+    }
+    public static Vector normalize(Vector v) {
+        return div(v, length(v));
+    }
+    public static Vector cross(Vector v1, Vector v2) {
         assert v1.size == 3 && v2.size == 3;
         Vector temp = new Vector(3);
         temp.set(0, v1.get(1) * v2.get(2) - v1.get(2) * v2.get(1));
@@ -47,6 +83,7 @@ public class Vector extends Matrix {
         temp.set(2, v1.get(0) * v2.get(1) - v1.get(1) * v2.get(0));
         return temp;
     }
+
 
     public Vector passFunction(DoubleToDouble function) {
         super.passFunction(function);

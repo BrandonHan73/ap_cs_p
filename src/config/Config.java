@@ -9,5 +9,6 @@ public class Config {
 
     public static final ImageIcon GAME_FLAPPY_BIRD = new ImageIcon("src/config/flappy_bird.png");
     public static final int BIRD_WIDTH = 100, BIRD_HEIGHT = 100;
+    public static final int WINDOW_WIDTH = 800, WINDOW_HEIGHT = 600;
 
 }

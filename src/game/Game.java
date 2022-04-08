@@ -16,7 +16,7 @@ public class Game {
     public Game() {
         window = new JFrame();
         window.setLayout(null);
-        window.setSize(1000, 600);
+        window.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 
         window.add(new Bird(100, 0).img);
         window.add(new Bird(400, 100).img);
