@@ -12,8 +12,12 @@ public class Config {
 
     public static final ImageIcon GAME_FLAPPY_BIRD = new ImageIcon("src/config/flappy_bird.png");
     public static final int BIRD_WIDTH = 2, BIRD_HEIGHT = 2;
+    public static final double BIRD_JUMP_VELOCITY = 5;
     public static final Vector2D GRAVITATIONAL_ACCELERATION = new Vector2D(0, -9.8);
     public static final int BIRD_WIDTH_PIXELS, BIRD_HEIGHT_PIXELS, BIRD_IMG_WIDTH_PIXELS, BIRD_IMG_HEIGHT_PIXELS;
+
+    public static final int GROUND_LEVEL = -9;
+
     public static final int WINDOW_WIDTH = 800, WINDOW_HEIGHT = 600, WINDOW_HEIGHT_UNITS = 20;
     public static final double PIXELS_PER_UNIT;
 
