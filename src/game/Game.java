@@ -15,7 +15,7 @@ public class Game {
         objects = new GameObject[3];
         objects[0] = new Bird(new Vector(2).set(new double[] {1, 1}));
         objects[1] = new Bird(new Vector(2).set(new double[] {-1, -1}));
-        objects[2] = new Pipe();
+        objects[2] = new Pipe(0);
 
         keyLog = new KeyLog();
         window = new JFrame();

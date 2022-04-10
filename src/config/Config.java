@@ -1,6 +1,5 @@
 package config;
 
-import math.Vector;
 import math.Vector2D;
 
 import javax.swing.*;
@@ -17,8 +16,8 @@ public class Config {
     public static final int BIRD_WIDTH_PIXELS, BIRD_HEIGHT_PIXELS, BIRD_IMG_WIDTH_PIXELS, BIRD_IMG_HEIGHT_PIXELS;
 
     public static final ImageIcon GAME_PIPE = new ImageIcon("src/config/pipe.png");
-    public static final int PIPE_HOLE_SIZE = 5, PIPE_WIDTH = 2;
-    public static final double PIPE_SPEED = 1;
+    public static final double PIPE_HOLE_SIZE = 3, PIPE_WIDTH = 1.5;
+    public static final double PIPE_SPEED = 3;
     public static final int PIPE_HOLE_SIZE_PIXELS;
     public static final int PIPE_WIDTH_PIXELS, PIPE_HEIGHT_PIXELS, PIPE_IMG_WIDTH_PIXELS, PIPE_IMG_HEIGHT_PIXELS;
 
