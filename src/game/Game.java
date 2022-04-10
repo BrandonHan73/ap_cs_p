@@ -1,6 +1,7 @@
 package game;
 
 import config.Config;
+import math.Vector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,17 +15,30 @@ public class Game {
     public GameObject[] objects;
 
     public Game() {
+        objects = new GameObject[2];
+        objects[0] = new Bird(new Vector(2).set(new double[] {1, 0}));
+        objects[1] = new Bird(new Vector(2).set(new double[] {-1, 0}));
+
         window = new JFrame();
         window.setLayout(null);
         window.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 
-        window.add(new Bird(100, 0).img);
-        window.add(new Bird(400, 100).img);
+        window.add(objects[0].getImage());
+        window.add(objects[1].getImage());
 
         window.setVisible(true);
     }
 
-    private void startGame(int populationSize) {
+    public void startGame() {
+        long deltaTime, start = System.currentTimeMillis(), temp;
+        while(true) {
+            temp = System.currentTimeMillis();
+            deltaTime = temp - start;
+            start = temp;
+            for (GameObject object : objects) {
+                object.update(deltaTime);
+            }
+        }
     }
 
 }
