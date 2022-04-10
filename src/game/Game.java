@@ -4,10 +4,6 @@ import config.Config;
 import math.Vector;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 
 public class Game {
 
@@ -16,9 +12,10 @@ public class Game {
     public GameObject[] objects;
 
     public Game() {
-        objects = new GameObject[2];
-        objects[0] = new Bird(new Vector(2).set(new double[] {1, 0}));
-        objects[1] = new Bird(new Vector(2).set(new double[] {-1, 0}));
+        objects = new GameObject[3];
+        objects[0] = new Bird(new Vector(2).set(new double[] {1, 1}));
+        objects[1] = new Bird(new Vector(2).set(new double[] {-1, -1}));
+        objects[2] = new Pipe();
 
         keyLog = new KeyLog();
         window = new JFrame();
@@ -28,6 +25,7 @@ public class Game {
 
         window.add(objects[0].getImage());
         window.add(objects[1].getImage());
+        window.add(objects[2].getImage());
 
         window.setVisible(true);
     }
