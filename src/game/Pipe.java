@@ -13,9 +13,9 @@ public class Pipe extends GameObject {
     private Vector pos;
     private boolean isDead;
 
-    public Pipe(double height) {
+    public Pipe(double start) {
         isDead = false;
-        pos = new Vector2D(3, height);
+        pos = new Vector2D(start, Math.random() * Config.PIPE_VARIATION - (Config.PIPE_VARIATION / 2));
         img = new JLabel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -36,9 +36,9 @@ public class Pipe extends GameObject {
             return;
         }
         pos.set(0, pos.get(0) - (Config.PIPE_SPEED * deltaTime / 1000.0));
-        if(pos.get(0) < -5) {
-            pos.set(0, 5);
-            pos.set(1, Math.random() * 5 - 2.5);
+        if(pos.get(0) < -(Config.WINDOW_WIDTH_UNITS / 2) - Config.PIPE_OFFSET) {
+            pos.set(0, (Config.WINDOW_WIDTH_UNITS / 2) + Config.PIPE_OFFSET);
+            pos.set(1, Math.random() * Config.PIPE_VARIATION - (Config.PIPE_VARIATION / 2));
         }
         img.setBounds((int)((Config.WINDOW_WIDTH / 2.0) + (pos.get(0) * Config.PIXELS_PER_UNIT) - (Config.PIPE_WIDTH_PIXELS / 2.0)),
                 (int)((Config.WINDOW_HEIGHT / 2.0) - (pos.get(1) * Config.PIXELS_PER_UNIT) - Config.PIPE_HEIGHT_PIXELS - (Config.PIPE_HOLE_SIZE_PIXELS / 2.0)),
