@@ -23,12 +23,13 @@ public class ArtificialNeuralNetwork {
         }
     }
 
-    public final int inputCount, layers;
+    public final int inputCount, outputCount, layers;
     private int[] nodeCounts;
     private Matrix[] weights, biases;
 
     public ArtificialNeuralNetwork(int[] nodeCounts) {
         this.inputCount = nodeCounts[0];
+        this.outputCount = nodeCounts[nodeCounts.length - 1];
         this.layers = nodeCounts.length - 1;
         this.nodeCounts = new int[nodeCounts.length];
         System.arraycopy(nodeCounts, 0, this.nodeCounts, 0, this.nodeCounts.length);

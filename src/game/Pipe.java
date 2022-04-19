@@ -19,16 +19,23 @@ public class Pipe extends GameObject {
         img = new JLabel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(Config.GAME_PIPE.getImage(), 0,
+                g.drawImage(Config.PIPE_IMAGE_ICON.getImage(), 0,
                         Config.PIPE_HEIGHT_PIXELS + Config.PIPE_HOLE_SIZE_PIXELS,
                         Config.PIPE_WIDTH_PIXELS, (2 * Config.PIPE_HEIGHT_PIXELS) + Config.PIPE_HOLE_SIZE_PIXELS, 0, 0,
                         Config.PIPE_IMG_WIDTH_PIXELS, Config.PIPE_IMG_HEIGHT_PIXELS, null);
-                g.drawImage(Config.GAME_PIPE.getImage(), 0,
+                g.drawImage(Config.PIPE_IMAGE_ICON.getImage(), 0,
                         Config.PIPE_HEIGHT_PIXELS,
                         Config.PIPE_WIDTH_PIXELS, 0, 0, 0,
                         Config.PIPE_IMG_WIDTH_PIXELS, Config.PIPE_IMG_HEIGHT_PIXELS, null);
             }
         };
+    }
+
+    public double distanceFrom(double pos) {
+        if(this.pos.get(0) < pos) {
+            return Config.WINDOW_WIDTH_UNITS;
+        }
+        return this.pos.get(0) - pos;
     }
 
     public void update(Game game, long deltaTime) {
@@ -50,7 +57,11 @@ public class Pipe extends GameObject {
     }
 
     public boolean isActive(double birdPos) {
-        return Math.abs(pos.get(0) - birdPos) < Config.PIPE_WIDTH + Config.BIRD_WIDTH;
+        return Math.abs(pos.get(0) - birdPos) < (Config.PIPE_WIDTH + Config.BIRD_WIDTH) / 2.0;
+    }
+
+    public boolean isActiveVertical(double birdPos) {
+        return Math.abs(pos.get(1) - birdPos) < (Config.PIPE_HOLE_SIZE - Config.BIRD_HEIGHT) / 2.0;
     }
 
     public boolean isDead() {

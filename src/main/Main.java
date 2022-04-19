@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new Game().startGame();
+        new Game(3).startGame();
 
     }
 
