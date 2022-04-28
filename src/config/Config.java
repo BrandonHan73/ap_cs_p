@@ -14,6 +14,7 @@ public class Config {
     public static final double BIRD_JUMP_VELOCITY = 5;
     public static final Vector2D GRAVITATIONAL_ACCELERATION = new Vector2D(0, -9.8);
     public static final int BIRD_WIDTH_PIXELS, BIRD_HEIGHT_PIXELS, BIRD_IMG_WIDTH_PIXELS, BIRD_IMG_HEIGHT_PIXELS;
+    public static final double BIRD_ANN_ACTIVATION_THRESHOLD = 0.8;
 
     public static final ImageIcon PIPE_IMAGE_ICON = new ImageIcon("src/config/pipe.png");
     public static final int PIPE_COUNT = 3;

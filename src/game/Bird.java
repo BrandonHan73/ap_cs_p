@@ -67,16 +67,24 @@ public class Bird extends GameObject {
     public void update(Game game, long deltaTime) {
         if(!isDead) {
             if(assigned) {
-                if(game.keyLog.isPressed(KeyEvent.VK_SPACE)) {
+                if(neuralNetwork.pass(new double[] {pos.get(1), game.getNextPipeHeight(pos.get(0))})[0] >= Config.BIRD_ANN_ACTIVATION_THRESHOLD) {
                     vel.set(1, Config.BIRD_JUMP_VELOCITY);
                 }
+                neuralNetwork.setFitness((System.currentTimeMillis() - game.getStartTime()) / 1000.0);
             } else {
                 if(game.keyLog.isPressed(KeyEvent.VK_SPACE)) {
                     vel.set(1, Config.BIRD_JUMP_VELOCITY);
                 }
             }
-            if(pos.get(1) < Config.GROUND_LEVEL) {
+            if(pos.get(1) <= Config.GROUND_LEVEL) {
                 isDead = true;
+                vel.set(0, -Config.PIPE_SPEED);
+                vel.set(1, 0);
+            }
+            if(pos.get(1) > Config.GROUND_LEVEL + Config.WINDOW_HEIGHT_UNITS) {
+                isDead = true;
+                vel.set(0, -Config.PIPE_SPEED);
+                vel.set(1, 0);
             }
         }
         vel = Vector.add(vel, Vector.mult(Config.GRAVITATIONAL_ACCELERATION, deltaTime / 1000.0));

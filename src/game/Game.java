@@ -3,6 +3,7 @@ package game;
 import config.Config;
 import math.Vector;
 import math.Vector2D;
+import neural_net.TrainNEAT;
 
 import javax.swing.*;
 
@@ -12,6 +13,7 @@ public class Game {
     public final KeyLog keyLog;
     public Bird[] objects;
     public Pipe[] pipes;
+    private long startTime;
 
     public final int populationSize;
 
@@ -19,7 +21,7 @@ public class Game {
         populationSize = popSize;
         objects = new Bird[popSize];
         for(int i = 0; i < objects.length; i++) {
-            objects[i] = new Bird(new Vector2D(-4 + i, 0));
+            objects[i] = new Bird(new Vector2D(-4, 0));
         }
 
         pipes = new Pipe[Config.PIPE_COUNT];
@@ -44,6 +46,18 @@ public class Game {
         window.setVisible(true);
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setTrain(TrainNEAT train) {
+        if(train.populationSize != this.populationSize)
+            throw new IllegalArgumentException("Population size must be the same.");
+        for(int i = 0; i < populationSize; i++) {
+            objects[i].assign(train.getNetworks()[i]);
+        }
+    }
+
     public double getNextPipeHeight(double loc) {
         double shortest = Double.MAX_VALUE;
         Pipe wanted = null;
@@ -59,6 +73,7 @@ public class Game {
 
     public void startGame() {
         long deltaTime, start = System.currentTimeMillis(), temp;
+        boolean temp_;
         while(true) {
             temp = System.currentTimeMillis();
             deltaTime = temp - start;
@@ -71,6 +86,18 @@ public class Game {
                     object.checkDeath(pipe);
                 }
                 object.update(this, deltaTime);
+            }
+            temp_ = false;
+            for(Bird bird : objects) {
+                if(!bird.isDead()) {
+                    temp_ = true;
+                    break;
+                }
+            }
+            if(!temp_) {
+                window.setVisible(false);
+                window.dispose();
+                break;
             }
         }
     }

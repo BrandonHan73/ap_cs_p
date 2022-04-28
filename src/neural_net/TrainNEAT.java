@@ -37,6 +37,9 @@ public class TrainNEAT {
 
     public TrainNEAT repopulate() {
         this.sortNetworks();
+        for(ArtificialNeuralNetwork ann : this.networks) {
+            System.out.println(ann.getFitness());
+        }
         ArtificialNeuralNetwork[] temp = new ArtificialNeuralNetwork[this.populationSize];
         System.arraycopy(this.networks, 0, temp, 0, this.populationSize / 3);
         for(int i = this.populationSize / 3; i < 2 * this.populationSize / 3; i++) {
