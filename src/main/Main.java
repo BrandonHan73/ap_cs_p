@@ -14,7 +14,7 @@ import java.awt.*;
 public class Main {
 
     public static JFrame dataWindow;
-    public static JLabel[] dataLabel, dataLabel2;
+    public static JLabel[] dataLabel, dataLabel2, dataLabel3;
 
     public static void main(String[] args) {
 
@@ -30,28 +30,41 @@ public class Main {
         for(int i = 0; i < popSize; i++) {
             dataLabel[i] = new JLabel();
             dataLabel[i].setBounds(0, i * Toolkit.getDefaultToolkit().getScreenSize().height / popSize,
-                    225, Toolkit.getDefaultToolkit().getScreenSize().height / popSize);
+                    150, Toolkit.getDefaultToolkit().getScreenSize().height / popSize);
             dataWindow.add(dataLabel[i]);
         }
 
         dataLabel2 = new JLabel[popSize];
         for(int i = 0; i < popSize; i++) {
             dataLabel2[i] = new JLabel();
-            dataLabel2[i].setBounds(225, i * Toolkit.getDefaultToolkit().getScreenSize().height / popSize,
-                    225, Toolkit.getDefaultToolkit().getScreenSize().height / popSize);
+            dataLabel2[i].setBounds(150, i * Toolkit.getDefaultToolkit().getScreenSize().height / popSize,
+                    150, Toolkit.getDefaultToolkit().getScreenSize().height / popSize);
             dataWindow.add(dataLabel2[i]);
         }
+
+        dataLabel3 = new JLabel[popSize];
+        for(int i = 0; i < popSize; i++) {
+            dataLabel3[i] = new JLabel();
+            dataLabel3[i].setBounds(300, i * Toolkit.getDefaultToolkit().getScreenSize().height / popSize,
+                    150, Toolkit.getDefaultToolkit().getScreenSize().height / popSize);
+            dataWindow.add(dataLabel3[i]);
+        }
+
         for(int i = popSize / 8; i < 2 * popSize / 3; i++) {
             dataLabel[i].setOpaque(true);
             dataLabel2[i].setOpaque(true);
+            dataLabel3[i].setOpaque(true);
             dataLabel[i].setBackground(Color.GREEN);
             dataLabel2[i].setBackground(Color.GREEN);
+            dataLabel3[i].setBackground(Color.GREEN);
         }
         for(int i = 0; i < 2; i++) {
             dataLabel[i].setOpaque(true);
             dataLabel2[i].setOpaque(true);
+            dataLabel3[i].setOpaque(true);
             dataLabel[i].setBackground(Color.GREEN);
             dataLabel2[i].setBackground(Color.GREEN);
+            dataLabel3[i].setBackground(Color.GREEN);
         }
 
         TrainNEAT train = new TrainNEAT(popSize, new int[] {2, 5, 7, 5, 1});

@@ -73,6 +73,14 @@ public class Bird extends GameObject {
         img.setOpaque(false);
     }
 
+    public double getFitness() {
+        if(!assigned) {
+            return 0;
+        } else {
+            return neuralNetwork.getFitness();
+        }
+    }
+
     public void update(Game game, long deltaTime) {
         if(!isDead) {
             if(assigned) {

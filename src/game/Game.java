@@ -118,6 +118,9 @@ public class Game {
                 }
                 object.update(this, deltaTime);
             }
+            for(int i = 0; i < objects.length; i++) {
+                Main.dataLabel3[i].setText(objects[i].getFitness() + "");
+            }
             temp_ = false;
             for(Bird bird : objects) {
                 if(!bird.isDead()) {
