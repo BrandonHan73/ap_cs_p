@@ -80,6 +80,7 @@ public class ArtificialNeuralNetwork {
             temp.weights[i] = this.weights[i].duplicate();
             temp.biases[i] = this.biases[i].duplicate();
         }
+        temp.setFitness(this.getFitness());
         return temp;
     }
 

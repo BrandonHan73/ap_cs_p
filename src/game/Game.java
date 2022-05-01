@@ -1,11 +1,14 @@
 package game;
 
 import config.Config;
+import main.Main;
+import math.Function;
 import math.Vector;
 import math.Vector2D;
 import neural_net.TrainNEAT;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Game {
 
@@ -16,12 +19,15 @@ public class Game {
     private long startTime;
 
     public final int populationSize;
+    private JSlider speedSlider;
 
     public Game(int popSize) {
         populationSize = popSize;
         objects = new Bird[popSize];
         for(int i = 0; i < objects.length; i++) {
-            objects[i] = new Bird(new Vector2D(-4, 0));
+            objects[i] = new Bird(new Vector2D(
+                    Config.BIRD_SPAWN_X + Function.randomize.pass(Config.BIRD_SPAWN_X_RANDOM),
+                    Config.BIRD_SPAWN_Y + Function.randomize.pass(Config.BIRD_SPAWN_Y_RANDOM)));
         }
 
         pipes = new Pipe[Config.PIPE_COUNT];
@@ -35,6 +41,16 @@ public class Game {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         window.addKeyListener(keyLog);
+
+        speedSlider = new JSlider();
+        speedSlider.setMinimum(1);
+        speedSlider.setMaximum(Config.MAX_SPEED_MULTIPLIER);
+        speedSlider.setValue((int) Config.getSpeedMultiplier());
+        speedSlider.addChangeListener(e -> {
+            Config.setSpeedMultiplier(speedSlider.getValue());
+        });
+        speedSlider.setBounds(0, 0, 100, 25);
+        window.add(speedSlider);
 
         for(Bird object : objects) {
             window.add(object.getImage());
@@ -53,8 +69,12 @@ public class Game {
     public void setTrain(TrainNEAT train) {
         if(train.populationSize != this.populationSize)
             throw new IllegalArgumentException("Population size must be the same.");
+        train.cleanseFitness();
         for(int i = 0; i < populationSize; i++) {
             objects[i].assign(train.getNetworks()[i]);
+        }
+        for(int i = 1; i < populationSize; i++) {
+            objects[i].highlight(new Color(255 - (255/populationSize * i), 255/populationSize * i, 0, 255/populationSize * i));
         }
     }
 
@@ -71,12 +91,23 @@ public class Game {
         return wanted.getHeight();
     }
 
+    public double getNextPipeDist(double loc) {
+        double shortest = Double.MAX_VALUE;
+        for(Pipe pipe : pipes) {
+            if(pipe.distanceFrom(loc) < shortest) {
+                shortest = pipe.distanceFrom(loc);
+            }
+        }
+        return shortest;
+    }
+
     public void startGame() {
+        startTime = System.currentTimeMillis();
         long deltaTime, start = System.currentTimeMillis(), temp;
         boolean temp_;
         while(true) {
             temp = System.currentTimeMillis();
-            deltaTime = temp - start;
+            deltaTime = (temp - start) * Config.getSpeedMultiplier();
             start = temp;
             for(Pipe pipe : pipes) {
                 pipe.update(this, deltaTime);

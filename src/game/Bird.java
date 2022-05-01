@@ -64,13 +64,25 @@ public class Bird extends GameObject {
         return img;
     }
 
+    public void highlight(Color c) {
+        img.setOpaque(true);
+        img.setBackground(c);
+    }
+
+    public void unhighlight() {
+        img.setOpaque(false);
+    }
+
     public void update(Game game, long deltaTime) {
         if(!isDead) {
             if(assigned) {
-                if(neuralNetwork.pass(new double[] {pos.get(1), game.getNextPipeHeight(pos.get(0))})[0] >= Config.BIRD_ANN_ACTIVATION_THRESHOLD) {
+                if(neuralNetwork.pass(new double[]
+                        {pos.get(1), game.getNextPipeHeight(pos.get(0)) /*game.getNextPipeDist(pos.get(0))*/}
+                )[0] >= Config.BIRD_ANN_ACTIVATION_THRESHOLD) {
                     vel.set(1, Config.BIRD_JUMP_VELOCITY);
                 }
-                neuralNetwork.setFitness((System.currentTimeMillis() - game.getStartTime()) / 1000.0);
+//                neuralNetwork.setFitness(game.getSpeedMultiplier() * (System.currentTimeMillis() - game.getStartTime()) / 1000.0);
+                neuralNetwork.setFitness(neuralNetwork.getFitness() + (deltaTime / 1000.0));
             } else {
                 if(game.keyLog.isPressed(KeyEvent.VK_SPACE)) {
                     vel.set(1, Config.BIRD_JUMP_VELOCITY);
@@ -81,7 +93,7 @@ public class Bird extends GameObject {
                 vel.set(0, -Config.PIPE_SPEED);
                 vel.set(1, 0);
             }
-            if(pos.get(1) > Config.GROUND_LEVEL + Config.WINDOW_HEIGHT_UNITS) {
+            if(pos.get(1) > -Config.GROUND_LEVEL) {
                 isDead = true;
                 vel.set(0, -Config.PIPE_SPEED);
                 vel.set(1, 0);

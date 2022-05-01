@@ -32,7 +32,7 @@ public class Pipe extends GameObject {
     }
 
     public double distanceFrom(double pos) {
-        if(this.pos.get(0) < pos) {
+        if(this.pos.get(0) + (Config.PIPE_WIDTH / 2.0) < pos - (Config.BIRD_WIDTH / 2.0)) {
             return Config.WINDOW_WIDTH_UNITS;
         }
         return this.pos.get(0) - pos;

@@ -1,5 +1,8 @@
 package neural_net;
 
+import config.Config;
+import main.Main;
+
 import java.util.ArrayList;
 
 public class TrainNEAT {
@@ -37,12 +40,20 @@ public class TrainNEAT {
 
     public TrainNEAT repopulate() {
         this.sortNetworks();
-        for(ArtificialNeuralNetwork ann : this.networks) {
-            System.out.println(ann.getFitness());
+
+        /**/
+        for(int i = 0; i < populationSize; i++) {
+            Main.dataLabel[i].setText(String.format("%.2f", this.networks[i].getFitness()));
         }
+        /**/
+
         ArtificialNeuralNetwork[] temp = new ArtificialNeuralNetwork[this.populationSize];
-        System.arraycopy(this.networks, 0, temp, 0, this.populationSize / 3);
-        for(int i = this.populationSize / 3; i < 2 * this.populationSize / 3; i++) {
+        temp[0] = this.getBestNetwork();
+        temp[1] = temp[0].duplicate().mutate(Config.ANN_LOW_MUTATION_RATE);
+        for(int i = 1; i < this.populationSize / 8; i++) {
+            temp[i] = temp[0].duplicate().mutate(Config.ANN_LOW_MUTATION_RATE);
+        }
+        for(int i = this.populationSize / 8; i < 2 * this.populationSize / 3; i++) {
             temp[i] = this.getWeightedRandom().duplicate().mutate();
         }
         for(int i = 2 * this.populationSize / 3; i < this.populationSize; i++) {
@@ -50,18 +61,43 @@ public class TrainNEAT {
         }
         this.networks = temp;
         this.sortNetworks();
+
+        /**/
+        for(int i = 0; i < populationSize; i++) {
+            Main.dataLabel2[i].setText(String.format("%.2f", this.networks[i].getFitness()));
+        }
+        /**/
+
+        return this;
+    }
+
+    public TrainNEAT cleanseFitness() {
+        for(ArtificialNeuralNetwork network : this.networks) {
+            network.setFitness(0);
+        }
         return this;
     }
 
     public ArtificialNeuralNetwork getWeightedRandom() {
-        this.sortNetworks();
         double temp = 0;
+        ArtificialNeuralNetwork best = this.getBestNetwork();
         for(ArtificialNeuralNetwork ann : this.networks) {
             temp += ann.getFitness();
         }
-        temp *= Math.random();
+        temp /= this.populationSize;
+        ArrayList<ArtificialNeuralNetwork> options = new ArrayList<>();
         for(ArtificialNeuralNetwork ann : this.networks) {
-            temp -= ann.getFitness();
+            if(ann.getFitness() >= temp && ann.getFitness() > best.getFitness() / 2) {
+                options.add(ann);
+            }
+        }
+        temp = 0;
+        for(ArtificialNeuralNetwork ann : options) {
+            temp += Math.pow(ann.getFitness(), Config.ANN_STANDARD_FITNESS_BLOAT_RATE);
+        }
+        temp *= Math.random();
+        for(ArtificialNeuralNetwork ann : options) {
+            temp -= Math.pow(ann.getFitness(), Config.ANN_STANDARD_FITNESS_BLOAT_RATE);
             if(temp <= 0) {
                 return ann;
             }
